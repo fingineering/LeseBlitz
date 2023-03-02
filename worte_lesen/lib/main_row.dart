@@ -22,7 +22,7 @@ class _MainRowLayoutState extends State<MainRowLayout> {
 
   void changeWord(String direction) {
     setState(() {
-      if (visible) {
+      if (visible && _counter >= 0) {
         visible = false;
       }
       if (direction == 'ff') {
