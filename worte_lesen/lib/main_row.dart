@@ -22,9 +22,6 @@ class _MainRowLayoutState extends State<MainRowLayout> {
 
   void changeWord(String direction) {
     setState(() {
-      if (visible && _counter >= 0) {
-        visible = false;
-      }
       if (direction == 'ff') {
         _counter++;
         word = worte[_counter];
@@ -32,6 +29,9 @@ class _MainRowLayoutState extends State<MainRowLayout> {
         _counter--;
         word = worte[_counter];
       } else {}
+      if (visible && _counter >= 0) {
+        visible = false;
+      }
     });
   }
 
@@ -50,11 +50,11 @@ class _MainRowLayoutState extends State<MainRowLayout> {
       Expanded(
           child: InkWell(
               onTap: () {
-                if (visible) {
+                if (visible && _counter >= 0) {
                   setState(() {
                     visible = false;
                   });
-                } else {
+                } else if (_counter >= 0) {
                   setState(() {
                     visible = true;
                   });
