@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               size: 30,
             )),
           ),
-          Expanded(child: MainRowLayout(changeWord: changeWord, word: _wort))
+          Expanded(child: MainRowLayout(word: _wort))
         ],
       )
           //),

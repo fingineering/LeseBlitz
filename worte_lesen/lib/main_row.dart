@@ -1,19 +1,39 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
-class MainRowLayout extends StatelessWidget {
-  // constructor
+class MainRowLayout extends StatefulWidget {
   const MainRowLayout(
-      {super.key,
-      required this.changeWord,
-      this.word = 'Das ist ein Text',
-      this.mainFontSize = 160.0});
+      {super.key, this.word = "Wort", this.mainFontSize = 160.0});
+
   final String word;
   final double mainFontSize;
-  final bool visible = false;
-  final duration = const Duration(milliseconds: 700);
 
-  final WordChangeCallback changeWord;
+  @override
+  State<MainRowLayout> createState() => _MainRowLayoutState();
+}
+
+class _MainRowLayoutState extends State<MainRowLayout> {
+  String word = "Willkommen bei LeseBlitz";
+  bool visible = true;
+  final duration = const Duration(milliseconds: 700);
+  int _counter = -1;
+  List<String> worte = ['Hello', 'Welt', 'Foo', 'Bar', 'Baz'];
+
+  void changeWord(String direction) {
+    setState(() {
+      if (visible) {
+        visible = false;
+      }
+      if (direction == 'ff') {
+        _counter++;
+        word = worte[_counter];
+      } else if (_counter > 0) {
+        _counter--;
+        word = worte[_counter];
+      } else {}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +42,29 @@ class MainRowLayout extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: IconButton(
             icon: Icon(Icons.arrow_back_ios_new),
-            iconSize: mainFontSize,
+            iconSize: widget.mainFontSize,
             onPressed: () {
               changeWord('rr');
             }),
       ),
       Expanded(
-          child: GestureDetector(
-              onTap: () {},
+          child: InkWell(
+              onTap: () {
+                if (visible) {
+                  setState(() {
+                    visible = false;
+                  });
+                } else {
+                  setState(() {
+                    visible = true;
+                  });
+                  Timer timer = Timer(Duration(milliseconds: 700), () {
+                    setState(() {
+                      visible = false;
+                    });
+                  });
+                }
+              },
               child: Container(
                   alignment: Alignment.center,
                   child: Visibility(
@@ -41,14 +76,14 @@ class MainRowLayout extends StatelessWidget {
                         word,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: mainFontSize,
+                          fontSize: widget.mainFontSize,
                         ),
                       ))))),
       Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: IconButton(
             icon: Icon(Icons.arrow_forward_ios),
-            iconSize: mainFontSize,
+            iconSize: widget.mainFontSize,
             onPressed: () {
               changeWord('ff');
             },
