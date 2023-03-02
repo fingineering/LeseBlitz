@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class MainRowLayout extends StatelessWidget {
@@ -9,7 +10,8 @@ class MainRowLayout extends StatelessWidget {
       this.mainFontSize = 160.0});
   final String word;
   final double mainFontSize;
-  bool visible = false;
+  final bool visible = false;
+  final duration = const Duration(milliseconds: 700);
 
   final WordChangeCallback changeWord;
 
@@ -26,20 +28,22 @@ class MainRowLayout extends StatelessWidget {
             }),
       ),
       Expanded(
-          child: Container(
-              alignment: Alignment.center,
-              child: Visibility(
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  visible: visible,
-                  child: Text(
-                    word,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: mainFontSize,
-                    ),
-                  )))),
+          child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Visibility(
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      visible: visible,
+                      child: Text(
+                        word,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: mainFontSize,
+                        ),
+                      ))))),
       Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: IconButton(
