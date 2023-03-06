@@ -62,6 +62,7 @@ class _MainRowLayoutState extends State<MainRowLayout> {
                     setState(() {
                       visible = false;
                     });
+                    changeWord('ff');
                   });
                 }
               },
