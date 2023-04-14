@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worte_lesen/main_row.dart';
+import 'package:worte_lesen/settings_overlay.dart';
 
 void main() {
   runApp(const MyApp());
@@ -115,11 +116,40 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          changeWord('ff');
+          // showDialog(
+          //     context: context,
+          //     builder: (BuildContext context) => _buildPopupDialog(context));
+          Navigator.of(context).push(SettingsOverlayDialog());
         },
         tooltip: 'Increment',
         child: const Icon(Icons.settings),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Popup example'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          //textColor: Theme.of(context).primaryColor,
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  // Dialog for the config Input  Future<Map<String, dynamic>>
+  Future openDialog() =>
+      showDialog(context: context, builder: (BuildContext context) => Dialog());
 }
