@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:worte_lesen/models.dart';
 
 // Functiion to create the initial database
 _onCreate(Database db, int version) async {
@@ -31,5 +32,21 @@ class DatabaseHandler {
     String path = await getDatabasesPath();
     return openDatabase(join(path, 'leseblitz.db'),
         onCreate: _onCreate, version: 1);
+  }
+
+  // get words from  db from word set
+  Future<List<String>> getWordsForSet() async {
+    final Database db = await initializeDB();
+    final List<Map<String, dynamic>> queryResults = await db.query('Words');
+    return queryResults.map((e) => Word.fromMap(e).toString()).toList();
+  }
+
+  // get the configuration from the database
+  Future<LeseConfig> getConfiguration({String configName = "default"}) async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> queryResults = await db
+        .query('LeseConfig', where: 'name  LIKE ?', whereArgs: [configName]);
+    Map<String, dynamic> config = queryResults.first;
+    return LeseConfig.fromMap(config);
   }
 }

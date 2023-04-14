@@ -30,6 +30,42 @@ class LeseConfig {
       required this.maximumWords,
       required this.countWords,
       required this.wordSet});
+
+  // Constructor from Map
+  LeseConfig.fromMap(Map<String, dynamic> queryResult)
+      : id = queryResult["id"],
+        name = queryResult["name"],
+        backgroundColor = queryResult["backgroundColor"],
+        textColor = queryResult["textColor"],
+        vowelColor = queryResult["vowelColor"],
+        fontSize = queryResult["fontSize"],
+        font = queryResult["font"],
+        delay = queryResult["delay"],
+        showSeparator = queryResult["showSeparator"],
+        highlightVowel = queryResult["highlightVowel"],
+        randomWordOrder = queryResult["randomWordOrder"],
+        maximumWords = queryResult["maximumWords"],
+        countWords = queryResult["countWords"],
+        wordSet = queryResult["wordSet"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'backgroundColor': backgroundColor,
+      'textColor': textColor,
+      'vowelColor': vowelColor,
+      'fontSize': fontSize,
+      'font': font,
+      'delay': delay,
+      'showSeparator': showSeparator,
+      'highlightVowel': highlightVowel,
+      'randomWordOrder': randomWordOrder,
+      'maximumWords': maximumWords,
+      'countWords': countWords,
+      'wordSet': wordSet
+    };
+  }
 }
 
 // A Word Class
@@ -44,6 +80,13 @@ class Word {
       required this.setId,
       required this.word,
       required this.partialWord});
+
+  Word.fromMap(Map<String, dynamic> queryResult)
+      : id = queryResult["id"],
+        setId = queryResult["setId"],
+        word = queryResult["word"],
+        partialWord = queryResult["partialWord"];
+
   Map<String, dynamic> toMap() {
     return {'id': id, 'setId': setId, 'word': word, 'partialWord': partialWord};
   }

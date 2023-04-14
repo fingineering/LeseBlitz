@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:worte_lesen/models.dart';
+import 'package:worte_lesen/services/database.dart';
 
 class MainRowLayout extends StatefulWidget {
   const MainRowLayout(
@@ -18,7 +20,22 @@ class _MainRowLayoutState extends State<MainRowLayout> {
   bool visible = true;
   final duration = const Duration(milliseconds: 700);
   int _counter = -1;
+  late DatabaseHandler handler;
+  late LeseConfig config;
   List<String> worte = ['Hello', 'Welt', 'Foo', 'Bar', 'Baz'];
+
+  @override
+  void initState() {
+    super.initState();
+    handler = DatabaseHandler();
+    handler.initializeDB().whenComplete(() async {
+      // load Configuration
+      config = await handler.getConfiguration(configName: 'default');
+      // load word list
+      worte = await handler.getWordsForSet();
+      setState(() {});
+    });
+  }
 
   void changeWord(String direction) {
     setState(() {
