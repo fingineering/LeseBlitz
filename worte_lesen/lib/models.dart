@@ -8,11 +8,11 @@ class LeseConfig {
   final int fontSize;
   final String font;
   final int delay;
-  final bool showSeparator;
-  final bool highlightVowel;
-  final bool randomWordOrder;
+  final int showSeparator;
+  final int highlightVowel;
+  final int randomWordOrder;
   final int maximumWords;
-  final bool countWords;
+  final int countWords;
   final int wordSet;
 
   const LeseConfig(
@@ -93,7 +93,7 @@ class Word {
 
   @override
   String toString() {
-    return '{$word}';
+    return '$word';
   }
 }
 

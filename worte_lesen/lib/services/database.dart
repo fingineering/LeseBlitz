@@ -30,6 +30,7 @@ _onCreate(Database db, int version) async {
 class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
+    print('db location: ' + path);
     return openDatabase(join(path, 'leseblitz.db'),
         onCreate: _onCreate, version: 1);
   }
