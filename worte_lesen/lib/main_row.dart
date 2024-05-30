@@ -53,59 +53,61 @@ class _MainRowLayoutState extends State<MainRowLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new),
-            iconSize: widget.mainFontSize,
-            onPressed: () {
-              changeWord('rr');
-            }),
-      ),
-      Expanded(
-          child: InkWell(
-              onTap: () {
-                if (visible && _counter >= 0) {
-                  setState(() {
-                    visible = false;
-                  });
-                } else if (_counter >= 0) {
-                  setState(() {
-                    visible = true;
-                  });
-                  Timer timer = Timer(Duration(milliseconds: 700), () {
+    return Flexible(
+      child: Row(children: <Widget>[
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new),
+              iconSize: widget.mainFontSize,
+              onPressed: () {
+                changeWord('rr');
+              }),
+        ),
+        Expanded(
+            child: InkWell(
+                onTap: () {
+                  if (visible && _counter >= 0) {
                     setState(() {
                       visible = false;
                     });
-                    changeWord('ff');
-                  });
-                }
+                  } else if (_counter >= 0) {
+                    setState(() {
+                      visible = true;
+                    });
+                    Timer timer = Timer(Duration(milliseconds: 700), () {
+                      setState(() {
+                        visible = false;
+                      });
+                      changeWord('ff');
+                    });
+                  }
+                },
+                child: Container(
+                    alignment: Alignment.center,
+                    child: Visibility(
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        visible: visible,
+                        child: Text(
+                          word,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: widget.mainFontSize,
+                          ),
+                        ))))),
+        Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              iconSize: widget.mainFontSize,
+              onPressed: () {
+                changeWord('ff');
               },
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Visibility(
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      visible: visible,
-                      child: Text(
-                        word,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: widget.mainFontSize,
-                        ),
-                      ))))),
-      Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: IconButton(
-            icon: Icon(Icons.arrow_forward_ios),
-            iconSize: widget.mainFontSize,
-            onPressed: () {
-              changeWord('ff');
-            },
-          ))
-    ]);
+            ))
+      ]),
+    );
   }
 }
 

@@ -84,32 +84,18 @@ class _MyHomePageState extends State<MyHomePage> {
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: Column(
-        // Column is also a layout widget. It takes a list of children and
-        // arranges them vertically. By default, it sizes itself to fit its
-        // children horizontally, and tries to be as tall as its parent.
-        //
-        // Invoke "debug painting" (press "p" in the console, choose the
-        // "Toggle Debug Paint" action from the Flutter Inspector in Android
-        // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-        // to see the wireframe for each widget.
-        //
-        // Column has various properties to control how it sizes itself and
-        // how it positions its children. Here we use mainAxisAlignment to
-        // center the children vertically; the main axis here is the vertical
-        // axis because Columns are vertical (the cross axis would be
-        // horizontal).
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
             alignment: Alignment.topLeft,
-            padding: EdgeInsets.only(left: 10.0, top: 10.0),
-            child: Expanded(
+            padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+            child: const Expanded(
                 child: Icon(
               Icons.menu,
               size: 30,
             )),
           ),
-          Expanded(child: MainRowLayout(word: _wort))
+          MainRowLayout(word: _wort),
         ],
       )
           //),
@@ -130,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Popup example'),
-      content: Column(
+      content: const Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
