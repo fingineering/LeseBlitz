@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worte_lesen/main_row.dart';
+import 'package:worte_lesen/services/database.dart';
 import 'package:worte_lesen/settings_overlay.dart';
 
 void main() {
@@ -53,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   List<String> worte = ['Hello', 'Welt', 'Foo', 'Bar', 'Baz'];
   String _wort = 'Hello';
+  final DatabaseHandler db = DatabaseHandler();
 
   void changeWord(String direction) {
     setState(() {
@@ -95,17 +97,33 @@ class _MyHomePageState extends State<MyHomePage> {
               size: 30,
             )),
           ),
-          MainRowLayout(word: _wort),
+          FutureBuilder(
+              future: db.getConfiguration(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final config = snapshot.data!;
+                  return MainRowLayout(
+                    word: _wort,
+                    config: config,
+                    db: db,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else
+                  return const CircularProgressIndicator();
+              }),
         ],
       )
           //),
           ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        backgroundColor: Colors.white,
+        onPressed: () async {
           // showDialog(
           //     context: context,
           //     builder: (BuildContext context) => _buildPopupDialog(context));
-          Navigator.of(context).push(SettingsOverlayDialog());
+          final config = await db.getConfiguration();
+          Navigator.of(context).push(SettingsOverlayDialog(db, config));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.settings),

@@ -5,10 +5,16 @@ import 'package:worte_lesen/services/database.dart';
 
 class MainRowLayout extends StatefulWidget {
   const MainRowLayout(
-      {super.key, this.word = "Wort", this.mainFontSize = 160.0});
+      {super.key,
+      required this.db,
+      required this.config,
+      this.word = "Wort",
+      this.mainFontSize = 160.0});
 
   final String word;
   final double mainFontSize;
+  final DatabaseHandler db;
+  final LeseConfig config;
 
   @override
   State<MainRowLayout> createState() => _MainRowLayoutState();

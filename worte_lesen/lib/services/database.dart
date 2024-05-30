@@ -45,10 +45,10 @@ class DatabaseHandler {
     return queryResults.map((e) => Word.fromMap(e).toString()).toList();
   }
 
-  Future<List<String>> getWordSets() async {
+  Future<List<WordSet>> getWordSets() async {
     final Database db = await initializeDB();
     final List<Map<String, dynamic>> queryResults = await db.query('WordSet');
-    return queryResults.map((e) => WordSet.fromMap(e).toString()).toList();
+    return queryResults.map((e) => WordSet.fromMap(e)).toList();
   }
 
   // get the configuration from the database

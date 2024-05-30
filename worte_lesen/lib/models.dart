@@ -5,31 +5,32 @@ class LeseConfig {
   final String backgroundColor;
   final String textColor;
   final String vowelColor;
-  final int fontSize;
+  int? fontSize;
   final String font;
-  final int delay;
-  final int showSeparator;
-  final int highlightVowel;
+  int? delay;
+  int showSeparator;
+  int highlightVowel;
   final int randomWordOrder;
-  final int maximumWords;
+  int? maximumWords;
   final int countWords;
   final int wordSet;
 
-  const LeseConfig(
-      {required this.id,
-      required this.name,
-      required this.backgroundColor,
-      required this.textColor,
-      required this.vowelColor,
-      required this.fontSize,
-      required this.font,
-      required this.delay,
-      required this.showSeparator,
-      required this.highlightVowel,
-      required this.randomWordOrder,
-      required this.maximumWords,
-      required this.countWords,
-      required this.wordSet});
+  LeseConfig({
+    required this.id,
+    required this.name,
+    required this.backgroundColor,
+    required this.textColor,
+    required this.vowelColor,
+    required this.font,
+    required this.delay,
+    required this.showSeparator,
+    required this.highlightVowel,
+    required this.randomWordOrder,
+    required this.maximumWords,
+    required this.countWords,
+    required this.wordSet,
+    this.fontSize,
+  });
 
   // Constructor from Map
   LeseConfig.fromMap(Map<String, dynamic> queryResult)
