@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:worte_lesen/models.dart';
@@ -30,7 +31,9 @@ _onCreate(Database db, int version) async {
 class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
-    print('db location: ' + path);
+    if (kDebugMode) {
+      print('db location: ' + path);
+    }
     return openDatabase(join(path, 'leseblitz.db'),
         onCreate: _onCreate, version: 1);
   }
@@ -42,6 +45,12 @@ class DatabaseHandler {
     return queryResults.map((e) => Word.fromMap(e).toString()).toList();
   }
 
+  Future<List<String>> getWordSets() async {
+    final Database db = await initializeDB();
+    final List<Map<String, dynamic>> queryResults = await db.query('WordSet');
+    return queryResults.map((e) => WordSet.fromMap(e).toString()).toList();
+  }
+
   // get the configuration from the database
   Future<LeseConfig> getConfiguration({String configName = "default"}) async {
     final Database db = await initializeDB();
@@ -49,5 +58,17 @@ class DatabaseHandler {
         .query('LeseConfig', where: 'name  LIKE ?', whereArgs: [configName]);
     Map<String, dynamic> config = queryResults.first;
     return LeseConfig.fromMap(config);
+  }
+
+  // Store new wordset in the database
+  Future<void> saveWordSet(WordSet wordSet) async {
+    final Database db = await initializeDB();
+    await db.insert('WordSet', wordSet.toMap());
+  }
+
+  // save or update the configuration in the database
+  Future<void> saveConfiguration(LeseConfig config) async {
+    final Database db = await initializeDB();
+    await db.insert('LeseConfig', config.toMap());
   }
 }
