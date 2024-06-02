@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worte_lesen/main_row.dart';
+import 'package:worte_lesen/models.dart';
 import 'package:worte_lesen/services/database.dart';
 import 'package:worte_lesen/settings_overlay.dart';
 
@@ -102,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final config = snapshot.data!;
+                  print("Using config: $config");
                   return MainRowLayout(
                     word: _wort,
                     config: config,
@@ -109,8 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
-                } else
+                } else {
                   return const CircularProgressIndicator();
+                }
               }),
         ],
       )
@@ -122,8 +125,35 @@ class _MyHomePageState extends State<MyHomePage> {
           // showDialog(
           //     context: context,
           //     builder: (BuildContext context) => _buildPopupDialog(context));
-          final config = await db.getConfiguration();
-          Navigator.of(context).push(SettingsOverlayDialog(db, config));
+          LeseConfig config = await db.getConfiguration();
+          config = await showDialog(
+              barrierColor: Colors.white.withAlpha(200),
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    "Einstellungen",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  content: const Placeholder(),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("Abbrechen"),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                        onPressed: () {
+                          debugPrint("Save data");
+                          // handler.saveConfiguration(config!);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Save'))
+                  ],
+                );
+              });
+          // Navigator.of(context).push(SettingsOverlayDialog(db, config));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.settings),

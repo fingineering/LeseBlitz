@@ -19,7 +19,7 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
   final List<String> list = <String>['1', '2', '3'];
   final List<int> fontSizes = <int>[32, 48, 64, 80, 96, 100, 128, 144, 160];
   List<WordSet> levelList = <WordSet>[];
-  String? dropdownValue;
+  String? dropdownValue = '1';
   String? dropdownValue2;
   LeseConfig? config;
 
@@ -48,7 +48,9 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
       // alignment: Alignment.center,
       child: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyMedium!,
-          child: UnconstrainedBox(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.8),
             child: Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 height: MediaQuery.of(context).size.height * 0.8,
@@ -69,7 +71,7 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                       ),
                       const SizedBox(height: 20),
                       const SizedBox(height: 10),
-                      Expanded(
+                      Flexible(
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -83,6 +85,7 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                                 elevation: 16,
                                 onChanged: (String? newValue) {
                                   setState(() {
+                                    print("newValue: $newValue");
                                     dropdownValue = newValue!;
                                   });
                                 },
@@ -107,10 +110,18 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       levelList = snapshot.data!;
+                                      print(levelList.where(
+                                        (element) {
+                                          return element.name.split('_')[1] ==
+                                              dropdownValue;
+                                        },
+                                      ).toList());
                                     } else if (snapshot.hasError) {
                                       levelList = <WordSet>[];
                                     } else {
-                                      levelList = <WordSet>[];
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
                                     }
                                     return DropdownButtonFormField<String>(
                                         decoration: const InputDecoration(
@@ -121,7 +132,10 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                                             const Text("Wort Liste auswählen"),
                                         value: levelList
                                             .where((wordList) =>
-                                                wordList.id == config!.wordSet)
+                                                wordList.id ==
+                                                    config!.wordSet &&
+                                                wordList.name.split('_')[1] ==
+                                                    dropdownValue)
                                             .first
                                             .name,
                                         isExpanded: true,
@@ -137,6 +151,8 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                                         }).toList(),
                                         onChanged: (String? newValue) {
                                           setState(() {
+                                            print(
+                                                "Selected new Wordlist value: $newValue");
                                             dropdownValue2 = newValue!;
                                           });
                                         });
@@ -175,7 +191,7 @@ class SettingsOverlayDialog<T> extends PopupRoute<T> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,

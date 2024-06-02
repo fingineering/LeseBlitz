@@ -67,6 +67,11 @@ class LeseConfig {
       'wordSet': wordSet
     };
   }
+
+  @override
+  String toString() {
+    return '$name, $wordSet - $backgroundColor, $textColor';
+  }
 }
 
 // A Word Class
